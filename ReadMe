@@ -1,0 +1,56 @@
+Autours: 
+Anna Luo
+The former partner, Bryce Bowers, contributed "part 3" for this version.
+
+
+---------------------------
+1. Implementation:
+For "part 2", List class is implemented based on doubly linked list and array separately. 
+It is expected that doubly linked list based list might be slow when n is small, but becomes faster than arrayed based list for large n. The guess is due to the fact that array based list has to reallocate space and copy all the data over when current list is full. This problem is more severe when the number of elements growers larger. 
+However, from our test result, array surprisingly remains faster. 
+With the consideration of consistency and potential future modification, we use doubly linked list implementation for the rest of the project.  
+
+
+-------------------------
+2. How to compile:
+In this folder, type "make" to compile.
+An executable "run" will be generated.
+To look at the time comparision between doubly linked list based and array based list class, type "make test" and type "./test_list".
+
+
+--------------------------
+3. How to run:
+An example of network user data is included in this folder, called "userdata". Type "./run userdata" to load the data and start playing.
+Users can type commands to:
+1. Create a user
+2. Log in
+3. Quit
+
+There are three pre-defined users in "userdata": Leonard, Sheldon, Amy. 
+Their passords are all "root".
+
+When a user is authorized, he/she can choose the follwing operations:
+1.Dis: show all posts of this user.
+2.Add: add post
+3.Del: delete post
+4.Save: dump user data to a file
+5.Read: read user data from a file
+6.Quit: log out
+7.Search: search users by name
+8.AddFriend: add a friend by his/her username
+9.ShowFriends: show current friends list
+10.DeFriend: delete a friend by his/her username
+11.ShowRequests: show all pending friend requests
+12.Approve: approve a friend request
+13.Ignore: ignore a friend request (request deleted after this)
+
+---------------------------
+4. For data format, check "userdata".
+When the contents of a user are updated, his/her current file can be dumped to a file. The entire "userdata" is updated before Quit.
+
+
+---------------------------
+5. Limitation:
+Some keywords are currently used to format the data. Those keywords should not be include in wall posts.
+Keywords:
+USERNAME,PASSWORD,FRIEND,BIRTHDAY,REALNAME,POST_CONTENT,CREATION_TIME. 
