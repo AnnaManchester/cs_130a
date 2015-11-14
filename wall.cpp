@@ -84,7 +84,7 @@ void Wall::RemovePost(int pos)
 void Wall::RemovePost(WallPost* post) {
   DoublyLinkedList<WallPost>::iterator it;
   for (it = wall_posts.begin(); it != wall_posts.end(); it++) {
-    if (&(*it) == post) {
+    if ((*it == *post)) {
       wall_posts.remove(it);
       break;
     }

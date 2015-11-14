@@ -74,7 +74,9 @@ void User::DeleteFromFriendWall() {
 		cout << "Invalid post index. Enter again: " << endl;
     }
 	User* frd = QueryFriend(memory[idx_del - 1].first);
-	frd->DeleteWallPost(memory[idx_del - 1].second);
+	WallPost* post = memory[idx_del - 1].second;
+	memory.erase(memory.begin() + idx_del - 1);
+	frd->DeleteWallPost(post);
 }
 
 

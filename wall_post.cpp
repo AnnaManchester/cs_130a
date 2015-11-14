@@ -11,6 +11,7 @@ bool WallPost::operator == (const WallPost& w) const {
 	return true;
 }
 
+
 WallPost::WallPost(string author_username, string text)
 {
   this->author_username = author_username;
