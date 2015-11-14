@@ -2,6 +2,7 @@
 #include <string>
 #include <stdlib.h>
 #include "user_network.h"
+#include "wall_post.h"
 #include "user.h"
 #include "basic.h"
 #include <fstream>
@@ -34,6 +35,7 @@ void menu(User* user) {
 			cout << "  DeFriend: delete a friend by his/her username" << endl;
 			cout << "  ShowRequests: show all pending friend requests" << endl;
 			cout << "  Approve: approve a friend request"  << endl;
+			cout << "  PostTo: create a new post on a friend’s wall"  << endl;
 			cout << "  Ignore: ignore a friend request (request deleted after this)"  << endl;
 			cout << "  Quit : exit." << endl;
 		} else if (oper == "Add") {
@@ -42,7 +44,18 @@ void menu(User* user) {
 			getline(cin, post);
 			user->AddWallPost(post);
 		} else if (oper == "Del") {
-			user->DeleteWallPost();
+			cout << "Choose from the following options: " << endl;
+			cout << "1. delete posts on your own wall " << endl;
+			cout << "2. delete your posts on friend’s walls " << endl;
+			int option;
+			ReadInt(option);
+			if (option == 1) {
+				user->DeleteWallPost();
+			}
+			else if (option == 2) {
+				user->DeleteFromFriendWall();
+			}
+			
 		} else if (oper == "Save") {
 			cout << "Enter file name: " << endl;
 			string fname;
@@ -93,6 +106,25 @@ void menu(User* user) {
 			int num;
 			ReadInt(num);
 			user->Ignore(num);
+		} else if (oper == "PostTo") {
+			cout << "Here are your friends:" << endl;
+			user->ShowFriends();
+			User* frd = NULL;
+			string uname;
+			while (true) {
+				cout << "Post on which friend's wall? Enter his/her username: " << endl;
+				getline(cin, uname);
+				frd = user->QueryFriend(uname);
+				if (!frd) cout << "This is not your friend. Re-enter: " << endl;
+				else break;
+			}
+			cout << "Enter your post to add to this friend's wall: " << endl;
+			string post;
+			getline(cin, post);
+			WallPost* pptr = frd->AddWallPost(user->GetUserName(), post);
+			if (pptr){
+				user->Remember(uname, pptr);
+			}
 		}
 		else {
 			cout << "Invalid command." << endl;

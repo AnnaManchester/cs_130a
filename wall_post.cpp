@@ -63,6 +63,9 @@ string WallPost::WallPostToString()
   wall_post_as_string += "POST_CONTENT:";
   wall_post_as_string += this->GetText();
   wall_post_as_string += '\n';
+  wall_post_as_string += "POST_AUTHOR:";
+  wall_post_as_string += this->GetAuthorUsername();
+  wall_post_as_string += '\n';
   wall_post_as_string += "CREATION_TIME:";
   wall_post_as_string += this->GetTimeCreated();
   return wall_post_as_string;
@@ -78,6 +81,8 @@ void WallPost::ConstructFromString(string data) {
 		string value = s.substr(found+1);
 		if (keyword == "POST_CONTENT")
 			text = value;
+    else if (keyword == "POST_AUTHOR")
+      author_username = value;
 		else if (keyword == "CREATION_TIME")
 			time_created = value;
 	} 

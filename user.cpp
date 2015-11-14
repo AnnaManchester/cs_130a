@@ -1,5 +1,6 @@
 #include "user.h"
 #include "wall_post.h"
+#include "basic.h"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -32,15 +33,60 @@ void User::AddWallPost(string text) {
 		WallPost *post = new WallPost(username,text);
 		wall->AddPost(*post);
 	} 
-}	
+}
+
+WallPost* User::AddWallPost(string authorname, string text) {
+	if (wall) {
+		WallPost *post = new WallPost(authorname,text);
+		wall->AddPost(*post);
+		return post;
+	} 
+	return NULL;
+}		
+
+
+void User::Remember(string friendname, WallPost* post) {
+	if (post) {
+		memory.push_back(make_pair(friendname, post));
+	}
+}
 
 void User::DeleteWallPost() {
 	wall->RemovePost();
 }
 
+void User::DeleteWallPost(WallPost* post) {
+	wall->RemovePost(post);
+}
+
+void User::DeleteFromFriendWall() {
+	cout << "Your posts on friends' walls: " << endl;
+	MEM::iterator it;
+	int post_index = 0;
+	for (it = memory.begin(); it != memory.end(); it++) {
+			cout << "Post Index: " << ++post_index << endl;
+			cout << (it->second)->WallPostToString() << endl;
+	}
+	cout << "Input post index to delete: " << endl;
+ 	int idx_del;
+	while (!ReadInt(idx_del) || idx_del > post_index)
+	{
+		cout << "Invalid post index. Enter again: " << endl;
+    }
+	User* frd = QueryFriend(memory[idx_del - 1].first);
+	frd->DeleteWallPost(memory[idx_del - 1].second);
+}
+
+
 void User::DisplayWallPosts() {
-	cout << "Wall posts for user: " << username << "." << endl;
+	cout << "Your wall: " << endl;
 	cout << wall->WriteWallToString();
+	cout << endl << endl;
+	cout << "Your posts on friends' walls: " << endl;
+	MEM::iterator it;
+	for (it = memory.begin(); it != memory.end(); it++) {
+		cout << (it->second)->WallPostToString() << endl;
+	}
 }
 
 string User::RetrieveInfo() {
@@ -124,10 +170,12 @@ void User::ReceiveRequest(FriendRequest req) {
 void User::ShowFriends() {
 	cout << "Here are your friends: " << endl;
   	DoublyLinkedList<string>::iterator it;
+  	int index = 1;
   	for (it = friends.begin(); it != friends.end(); it++) {
   		User* user = network->QueryUser(*it);
-		cout << "Username: " << (*it)
-			<< ",  Realname: " << user->GetRealName() << endl;   
+		cout << index << ". Username: " << (*it)
+			<< ",  Realname: " << user->GetRealName() << endl; 
+		index++;  
 	}
 	return;
 }

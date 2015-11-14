@@ -81,6 +81,16 @@ void Wall::RemovePost(int pos)
   wall_posts.remove(pos);
 }
 
+void Wall::RemovePost(WallPost* post) {
+  DoublyLinkedList<WallPost>::iterator it;
+  for (it = wall_posts.begin(); it != wall_posts.end(); it++) {
+    if (&(*it) == post) {
+      wall_posts.remove(it);
+      break;
+    }
+  }
+}
+
 void Wall::SetUsername(string username)
 {
   this->username = username;

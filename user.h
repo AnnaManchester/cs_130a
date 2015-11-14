@@ -1,12 +1,18 @@
 #ifndef USER_H
 #define USER_H
+#include <utility>
+#include <vector>
 #include <string>
 #include <ctime>
 #include "doubly_linked_list.h"
 #include "wall.h"
 #include "user_network.h"
 
+using namespace std;
+
 class UserNetwork;
+
+typedef vector<pair<string, WallPost*>> MEM;
 
 class User
 {
@@ -35,6 +41,7 @@ private:
 	DoublyLinkedList<string> friends;
 	DoublyLinkedList<FriendRequest> requests;
 	UserNetwork* network; 
+	MEM memory;
 public:
 	User() {}
 	User(UserNetwork* mynetwork) {network = mynetwork;}
@@ -66,7 +73,11 @@ public:
 		birthday = bday;
 	}
 	void AddWallPost(string text);
+	WallPost* AddWallPost(string authorname, string text);
+	void Remember(string friendname, WallPost* post);
 	void DeleteWallPost();
+	void DeleteWallPost(WallPost* post);
+	void DeleteFromFriendWall();
 	string RetrieveInfo();
 	void ConstructUserFromString(string user_info);
 	void DisplayWallPosts();
