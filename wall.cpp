@@ -84,10 +84,11 @@ WallPost Wall::RemovePost(WallPost* post)
       }
   }
   else {
-    idx_del = FindPostIndex(post);
-    if (idx_del == -1)
+    idx_del = FindPostIndex(post) + 1;
+    if (idx_del == 0){
       cout << "Error: couldn't find post." << endl;
       exit(1);
+    }  
   }
   WallPost copy = wall_posts.get(idx_del - 1);
   if (copy.IsResponse()) {
