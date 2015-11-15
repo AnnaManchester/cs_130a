@@ -66,21 +66,29 @@ string Wall::GetUsername()
   return username;
 }
 
-WallPost Wall::RemovePost()
+WallPost Wall::RemovePost(WallPost* post)
 {
   int post_index = 0;
-  cout << "Here are all your posts: " << endl;
-  for (post_index = 0; post_index < wall_posts.size(); post_index++)
-    {
-      cout << "Post Index: " << post_index+1 << endl;
-      cout << wall_posts.get(post_index).WallPostToString() << endl;
-    }
-  cout << "Input post index to delete: " << endl;
   int idx_del;
-  while (!ReadInt(idx_del) || idx_del > post_index)
-    {
-      cout << "Invalid post index. Enter again: " << endl;
-    }
+  if (!post) {
+    cout << "Here are all your posts: " << endl;
+    for (post_index = 0; post_index < wall_posts.size(); post_index++)
+      {
+        cout << "Post Index: " << post_index+1 << endl;
+        cout << wall_posts.get(post_index).WallPostToString() << endl;
+      }
+    cout << "Input post index to delete: " << endl;
+    while (!ReadInt(idx_del) || idx_del > post_index)
+      {
+        cout << "Invalid post index. Enter again: " << endl;
+      }
+  }
+  else {
+    idx_del = FindPostIndex(post);
+    if (idx_del == -1)
+      cout << "Error: couldn't find post." << endl;
+      exit(1);
+  }
   WallPost copy = wall_posts.get(idx_del - 1);
   if (copy.IsResponse()) {
     WallPost* parent = copy.GetParent();
@@ -97,14 +105,15 @@ WallPost Wall::RemovePost(int pos)
   return copy;
 }
 
-void Wall::RemovePost(WallPost& post) {
+int Wall::FindPostIndex(WallPost* post) {
   DoublyLinkedList<WallPost>::iterator it;
-  for (it = wall_posts.begin(); it != wall_posts.end(); it++) {
-    if ((*it == post)) {
-      wall_posts.remove(it);
-      break;
+  int i = 0;
+  for (it = wall_posts.begin(); it != wall_posts.end(); it++, i++) {
+    if ((*it == *post)) {
+      return i;
     }
   }
+  return -1;
 }
 
 void Wall::SetUsername(string username)

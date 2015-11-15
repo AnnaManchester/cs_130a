@@ -90,7 +90,7 @@ void menu(User* user) {
 			int option;
 			ReadInt(option);
 			if (option == 1) {
-				user->DeleteWallPost();
+				user->DeleteWallPost(NULL);
 			}
 			else if (option == 2) {
 				user->DeleteFromFriendWall();

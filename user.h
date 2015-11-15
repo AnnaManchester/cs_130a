@@ -75,7 +75,7 @@ public:
 	void AddWallPost(string text);
 	WallPost AddWallPost(string authorname, string text);
 	void Remember(string friendname, WallPost& post);
-	void DeleteWallPost();
+	void DeleteWallPost(WallPost* post);
 	void DeleteWallPost(WallPost& post);
 	void DeleteFromFriendWall();
 	void DeleteFromMemory(WallPost& post);

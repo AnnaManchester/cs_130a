@@ -20,9 +20,9 @@ class Wall
   void CreateWallFromString(string); //Wall will only have WallPosts given by the string parameter
   
   string GetUsername();
-  WallPost RemovePost();
-  void RemovePost(WallPost& post);
+  WallPost RemovePost(WallPost* post);
   WallPost RemovePost(int pos);
+  int FindPostIndex(WallPost* post);
   void SetUsername(string username);
   string WriteWallToString();
   int GetWallSize();
