@@ -25,9 +25,14 @@ void Wall::AddPost(int pos, WallPost wall_post)
 }
 
 void Wall::AddResponseToPost(int post_index, WallPost& post) {
-  post.SetParent(&(wall_posts.get(post_index - 1)));
+  WallPost& parent = wall_posts.get(post_index - 1);
+  if (parent.IsResponse()){
+      parent = *parent.GetParent();
+  }
+  post.SetParent(&parent);
   post.SetDomainName(username);
-  wall_posts.get(post_index - 1).AddResponse(&post);
+  parent.AddResponse(&post);
+  wall_posts.Add(post);
 }
 
 void Wall::CreateWallFromString(string data) 
