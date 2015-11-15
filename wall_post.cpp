@@ -58,9 +58,23 @@ void WallPost::SetAuthorUsername(string author_username)
 {
   this->author_username = author_username;
 }
+
+void WallPost::SetDomainName(string domain_name) 
+{
+  this->domain_name = domain_name;
+}
+
+string WallPost::GetDomainName()
+{
+  return domain_name;
+}
+
+
 string WallPost::WallPostToString()
 {
   string wall_post_as_string = "";
+  wall_post_as_string += "DOMAIN_NAME:";
+  wall_post_as_string += this->GetDomainName();
   wall_post_as_string += "POST_CONTENT:";
   wall_post_as_string += this->GetText();
   wall_post_as_string += '\n';
@@ -80,7 +94,9 @@ void WallPost::ConstructFromString(string data) {
 		if (found == string::npos) continue;
 		const string keyword = s.substr(0, found);
 		string value = s.substr(found+1);
-		if (keyword == "POST_CONTENT")
+    if (keyword == "DOMAIN_NAME")
+      text = value;
+		else if (keyword == "POST_CONTENT")
 			text = value;
     else if (keyword == "POST_AUTHOR")
       author_username = value;

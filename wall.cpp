@@ -14,11 +14,13 @@ Wall::Wall(string username)
 
 void Wall::AddPost(WallPost wall_post)
 {
+  wall_post.SetDomainName(username);
   wall_posts.insert(0, wall_post);
 }
 
 void Wall::AddPost(int pos, WallPost wall_post)
 {
+  wall_post.SetDomainName(username);
   wall_posts.insert(pos, wall_post);
 }
 

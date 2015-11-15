@@ -107,7 +107,6 @@ void menu(User* user) {
 			ReadInt(num);
 			user->Ignore(num);
 		} else if (oper == "PostTo") {
-			cout << "Here are your friends:" << endl;
 			user->ShowFriends();
 			User* frd = NULL;
 			string uname;

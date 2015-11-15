@@ -8,6 +8,7 @@ using namespace std;
 class WallPost
 {
  private:
+  string domain_name;
   string author_username;
   string text;
   string time_created;
@@ -26,6 +27,8 @@ class WallPost
   void SetText(string text);
   bool SetTimeCreated(string time_created);
   void SetAuthorUsername(string author_username);
+  void SetDomainName(string domain_name);
+  string GetDomainName();
 
   string WallPostToString();
   void ConstructFromString(string data);
