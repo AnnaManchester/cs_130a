@@ -26,12 +26,12 @@ void Wall::AddPost(int pos, WallPost wall_post)
 
 void Wall::CreateWallFromString(string data) 
 {
-	size_t cur_pos = data.find("POST_CONTENT", 0);
+	size_t cur_pos = data.find("DOMAIN_NAME", 0);
 	if (cur_pos == string::npos) {
 		cout << "No post data found." << endl;
 		return;
 	}
-	size_t next_pos = data.find("POST_CONTENT", cur_pos+1);
+	size_t next_pos = data.find("DOMAIN_NAME", cur_pos+1);
 	string post_data;
 	while (next_pos != string::npos) {
 		post_data = data.substr(cur_pos, next_pos - cur_pos);
@@ -40,7 +40,7 @@ void Wall::CreateWallFromString(string data)
 		post.ConstructFromString(post_data);
 		wall_posts.insert(0, post);
 		cur_pos = next_pos;
-		next_pos = data.find("POST_CONTENT", cur_pos + 1);
+		next_pos = data.find("DOMAIN_NAME", cur_pos + 1);
 	}
 	post_data = data.substr(cur_pos, data.length());
 	WallPost post  = WallPost();
