@@ -78,6 +78,7 @@ public:
 	void DeleteWallPost();
 	void DeleteWallPost(WallPost& post);
 	void DeleteFromFriendWall();
+	void DeleteFromMemory(WallPost& post);
 	string RetrieveInfo();
 	void ConstructUserFromString(string user_info);
 	void DisplayWallPosts();

@@ -51,7 +51,16 @@ void User::Remember(string friendname, WallPost& post) {
 }
 
 void User::DeleteWallPost() {
-	wall->RemovePost();
+	if (wall->GetWallSize() == 0) {
+		cout << "No post to delete." << endl;
+		cout << endl;
+		return;
+	}
+	WallPost pp = wall->RemovePost();
+	if (pp.GetAuthorUsername() != username) {
+		User* frd = QueryFriend(pp.GetAuthorUsername());
+		frd->DeleteFromMemory(pp);
+	}
 }
 
 void User::DeleteWallPost(WallPost& post) {
@@ -76,6 +85,16 @@ void User::DeleteFromFriendWall() {
 	WallPost post = memory[idx_del - 1].second;
 	memory.erase(memory.begin() + idx_del - 1);
 	frd->DeleteWallPost(post);
+}
+
+void User::DeleteFromMemory(WallPost& post) {
+	MEM::iterator it;
+	for (it = memory.begin(); it != memory.end(); it++) {
+		if (it->second == post) {
+			memory.erase(it);
+			break;
+		}
+	}
 }
 
 

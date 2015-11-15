@@ -53,19 +53,14 @@ string Wall::GetUsername()
   return username;
 }
 
-void Wall::RemovePost()
+WallPost Wall::RemovePost()
 {
-  int post_index = 1;
+  int post_index = 0;
   cout << "Here are all your posts: " << endl;
   for (post_index = 0; post_index < wall_posts.size(); post_index++)
     {
       cout << "Post Index: " << post_index+1 << endl;
       cout << wall_posts.get(post_index).WallPostToString() << endl;
-    }
-  if (post_index == 0)
-    {
-      cout << "No wall post to delete." <<endl;
-      return;
     }
   cout << "Input post index to delete: " << endl;
   int idx_del;
@@ -73,12 +68,16 @@ void Wall::RemovePost()
     {
       cout << "Invalid post index. Enter again: " << endl;
     }
+  WallPost copy = wall_posts.get(idx_del - 1);
   wall_posts.remove(idx_del-1);
+  return copy;
  }
 
-void Wall::RemovePost(int pos)
+WallPost Wall::RemovePost(int pos)
 {
+  WallPost copy = wall_posts.get(pos);
   wall_posts.remove(pos);
+  return copy;
 }
 
 void Wall::RemovePost(WallPost& post) {
@@ -105,4 +104,8 @@ string Wall::WriteWallToString()
     wall_as_string += '\n';
   }
   return wall_as_string;
+}
+
+int Wall::GetWallSize() {
+  return wall_posts.size();
 }
