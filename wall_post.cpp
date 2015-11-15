@@ -113,3 +113,15 @@ void WallPost::ConstructFromString(string data) {
 	} 
 }
 
+void WallPost::DeleteResponse(WallPost post) {
+  vector<WallPost*>::iterator it;
+  for (it = resps.begin(); it != resps.end(); it++) {
+    if ((**it == post)) {
+      resps.erase(it);
+      break;
+    }
+  }
+}
+
+
+

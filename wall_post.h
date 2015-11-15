@@ -44,5 +44,6 @@ class WallPost
   WallPost* GetParent() {return parent;}
   void AddResponse(WallPost* post) {resps.push_back(post);}
   void DeleteResponse(WallPost post);
+  vector<WallPost*> & GetAllResponses() {return resps;}
 };
 #endif

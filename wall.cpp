@@ -32,7 +32,7 @@ void Wall::AddResponseToPost(int post_index, WallPost& post) {
   post.SetParent(parent);
   post.SetDomainName(username);
   parent->AddResponse(&post);
-  wall_posts.Add(post);
+  wall_posts.insert(post_index, post);
 }
 
 void Wall::CreateWallFromString(string data) 
@@ -82,6 +82,10 @@ WallPost Wall::RemovePost()
       cout << "Invalid post index. Enter again: " << endl;
     }
   WallPost copy = wall_posts.get(idx_del - 1);
+  if (copy.IsResponse()) {
+    WallPost* parent = copy.GetParent();
+    parent->DeleteResponse(copy);
+  }
   wall_posts.remove(idx_del-1);
   return copy;
  }
