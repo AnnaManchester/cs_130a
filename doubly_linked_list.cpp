@@ -132,6 +132,7 @@ bool DoublyLinkedList<T>::remove(iterator it) {
 	if (next) next->SetPrev(prev);
 	if (node == head) head = head->GetNext();
 	delete node;
+	this->length --;
 	return true;
 }
 

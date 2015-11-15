@@ -76,7 +76,7 @@ void User::DeleteWallPost() {
 	}
 	if (pp.IsResponse())
 		return;
-	vector<WallPost*> resps = pp.GetAllResponses();
+	vector<WallPost*> &resps = pp.GetAllResponses();
 	vector<WallPost*>::iterator it;
 	for (it = resps.begin(); it != resps.end(); it++) {
 		if ((*it)->GetAuthorUsername() != username) {
@@ -84,7 +84,7 @@ void User::DeleteWallPost() {
 			frd->DeleteFromMemory(**it);
 		}
 		DeleteWallPost(**it);
-	}
+		}
 
 }
 
