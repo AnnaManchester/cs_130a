@@ -35,27 +35,26 @@ void User::AddWallPost(string text) {
 	} 
 }
 
-WallPost* User::AddWallPost(string authorname, string text) {
+WallPost User::AddWallPost(string authorname, string text) {
 	if (wall) {
 		WallPost *post = new WallPost(authorname,text);
 		wall->AddPost(*post);
-		return post;
+		return *post;
 	} 
-	return NULL;
+	cout << "Error: no wall." << endl;
+	exit(1);
 }		
 
 
-void User::Remember(string friendname, WallPost* post) {
-	if (post) {
+void User::Remember(string friendname, WallPost& post) {
 		memory.push_back(make_pair(friendname, post));
-	}
 }
 
 void User::DeleteWallPost() {
 	wall->RemovePost();
 }
 
-void User::DeleteWallPost(WallPost* post) {
+void User::DeleteWallPost(WallPost& post) {
 	wall->RemovePost(post);
 }
 
@@ -65,7 +64,7 @@ void User::DeleteFromFriendWall() {
 	int post_index = 0;
 	for (it = memory.begin(); it != memory.end(); it++) {
 			cout << "Post Index: " << ++post_index << endl;
-			cout << (it->second)->WallPostToString() << endl;
+			cout << (it->second).WallPostToString() << endl;
 	}
 	cout << "Input post index to delete: " << endl;
  	int idx_del;
@@ -74,7 +73,7 @@ void User::DeleteFromFriendWall() {
 		cout << "Invalid post index. Enter again: " << endl;
     }
 	User* frd = QueryFriend(memory[idx_del - 1].first);
-	WallPost* post = memory[idx_del - 1].second;
+	WallPost post = memory[idx_del - 1].second;
 	memory.erase(memory.begin() + idx_del - 1);
 	frd->DeleteWallPost(post);
 }
@@ -87,7 +86,7 @@ void User::DisplayWallPosts() {
 	cout << "Your posts on friends' walls: " << endl;
 	MEM::iterator it;
 	for (it = memory.begin(); it != memory.end(); it++) {
-		cout << (it->second)->WallPostToString() << endl;
+		cout << (it->second).WallPostToString() << endl;
 	}
 }
 

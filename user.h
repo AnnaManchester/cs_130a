@@ -12,7 +12,7 @@ using namespace std;
 
 class UserNetwork;
 
-typedef vector<pair<string, WallPost*>> MEM;
+typedef vector<pair<string, WallPost>> MEM;
 
 class User
 {
@@ -73,10 +73,10 @@ public:
 		birthday = bday;
 	}
 	void AddWallPost(string text);
-	WallPost* AddWallPost(string authorname, string text);
-	void Remember(string friendname, WallPost* post);
+	WallPost AddWallPost(string authorname, string text);
+	void Remember(string friendname, WallPost& post);
 	void DeleteWallPost();
-	void DeleteWallPost(WallPost* post);
+	void DeleteWallPost(WallPost& post);
 	void DeleteFromFriendWall();
 	string RetrieveInfo();
 	void ConstructUserFromString(string user_info);

@@ -21,7 +21,7 @@ class Wall
   
   string GetUsername();
   void RemovePost();
-  void RemovePost(WallPost* post);
+  void RemovePost(WallPost& post);
   void RemovePost(int pos);
   void SetUsername(string username);
   string WriteWallToString();

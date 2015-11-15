@@ -7,7 +7,7 @@ OBJS += user_network.o
 OBJS += main.o
 
 CC = g++
-CCFLAGS = -std=c++11
+CCFLAGS = -std=c++0x
 %.o: %.cpp
 	$(CC) $(CCFLAGS) -c $< -o $@
 

@@ -121,10 +121,8 @@ void menu(User* user) {
 			cout << "Enter your post to add to this friend's wall: " << endl;
 			string post;
 			getline(cin, post);
-			WallPost* pptr = frd->AddWallPost(user->GetUserName(), post);
-			if (pptr){
-				user->Remember(uname, pptr);
-			}
+			WallPost pp = frd->AddWallPost(user->GetUserName(), post);
+			user->Remember(uname, pp);
 		}
 		else {
 			cout << "Invalid command." << endl;
