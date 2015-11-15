@@ -25,13 +25,13 @@ void Wall::AddPost(int pos, WallPost wall_post)
 }
 
 void Wall::AddResponseToPost(int post_index, WallPost& post) {
-  WallPost& parent = wall_posts.get(post_index - 1);
-  if (parent.IsResponse()){
-      parent = *(parent.GetParent());
+  WallPost* parent = &(wall_posts.get(post_index - 1));
+  if (parent->IsResponse()){
+      parent = parent->GetParent();
   }
-  post.SetParent(&parent);
+  post.SetParent(parent);
   post.SetDomainName(username);
-  parent.AddResponse(&post);
+  parent->AddResponse(&post);
   wall_posts.Add(post);
 }
 
