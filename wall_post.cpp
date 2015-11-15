@@ -75,6 +75,7 @@ string WallPost::WallPostToString()
   string wall_post_as_string = "";
   wall_post_as_string += "DOMAIN_NAME:";
   wall_post_as_string += this->GetDomainName();
+  wall_post_as_string += '\n';
   wall_post_as_string += "POST_CONTENT:";
   wall_post_as_string += this->GetText();
   wall_post_as_string += '\n';
@@ -95,7 +96,7 @@ void WallPost::ConstructFromString(string data) {
 		const string keyword = s.substr(0, found);
 		string value = s.substr(found+1);
     if (keyword == "DOMAIN_NAME")
-      text = value;
+      domain_name = value;
 		else if (keyword == "POST_CONTENT")
 			text = value;
     else if (keyword == "POST_AUTHOR")
