@@ -24,6 +24,12 @@ void Wall::AddPost(int pos, WallPost wall_post)
   wall_posts.insert(pos, wall_post);
 }
 
+void Wall::AddResponseToPost(int post_index, WallPost& post) {
+  post.SetParent(&(wall_posts.get(post_index - 1)));
+  post.SetDomainName(username);
+  wall_posts.get(post_index - 1).AddResponse(&post);
+}
+
 void Wall::CreateWallFromString(string data) 
 {
 	size_t cur_pos = data.find("DOMAIN_NAME", 0);
@@ -110,4 +116,12 @@ string Wall::WriteWallToString()
 
 int Wall::GetWallSize() {
   return wall_posts.size();
+}
+
+void Wall::DisplayPosts() {
+  for (int post_index = 0; post_index < wall_posts.size(); post_index++)
+    {
+      cout << "Post Index: " << post_index + 1 << endl;
+      cout << wall_posts.get(post_index).WallPostToString() << endl;
+    }
 }

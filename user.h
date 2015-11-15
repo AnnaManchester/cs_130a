@@ -82,6 +82,7 @@ public:
 	string RetrieveInfo();
 	void ConstructUserFromString(string user_info);
 	void DisplayWallPosts();
+	void DisplayMemory();
 	void SearchFriend(string keyword);
 	User* QueryFriend(string friendname);	
 	void ReceiveRequest(FriendRequest req);
@@ -93,7 +94,8 @@ public:
 	bool RequestExists(string uname); 
 	void InsertFriend(string uname);
 	void Approve(int pos);
-	void Ignore(int pos);	
+	void Ignore(int pos);
+	WallPost AddResponse(int post_index, string authorname, string post);
 };
 #endif
 

@@ -21,11 +21,13 @@ void menu(User* user) {
 			return;
 		} else if (oper == "Dis") {
 			user->DisplayWallPosts();
+			user->DisplayMemory();
 		} else if (oper == "Help") {
 			cout << "Available Commands:" << endl;
 			cout << "  Help : show this message." << endl;
 			cout << "  Dis : show all posts of this user." << endl;
 			cout << "  Add: add post" << endl;
+			cout << "  Reply: Reply to a post" << endl;
 			cout << "  Del: delete post" << endl;
 			cout << "  Save: dump user data to a file" << endl;
 			cout << "  Read: read user data from a file" << endl;
@@ -43,6 +45,44 @@ void menu(User* user) {
 			string post;
 			getline(cin, post);
 			user->AddWallPost(post);
+		} else if (oper == "Reply") {
+			cout << "Choose from the following options: " << endl;
+			cout << "1. reply to a post on your own wall " << endl;
+			cout << "2. reply to a post on your friend’s walls " << endl;
+			int option;
+			ReadInt(option);
+			if (option == 1) {
+				user->DisplayWallPosts();
+				cout << "Enter index to reply to: " << endl;
+				int num;
+				ReadInt(num);
+				cout << "Enter your response: " << endl;
+				string post;
+				getline(cin, post);
+				user->AddResponse(num, user->GetUserName(), post);
+			}
+			else if (option == 2) {
+				user->ShowFriends();
+				User* frd = NULL;
+				string uname;
+				cout << "Reply to which friend's wallpost? Enter his/her username: " << endl;
+				getline(cin, uname);
+				frd = user->QueryFriend(uname);
+				if (!frd) {
+					cout << "This is not your friend. " << endl;
+					continue;
+				}
+				frd->DisplayWallPosts();
+				cout << "Enter index to reply to: " << endl;
+				int num;
+				ReadInt(num);
+				cout << "Enter your response: " << endl;
+				string post;
+				getline(cin, post);
+				WallPost pp = frd->AddResponse(num, user->GetUserName(), post);
+				user->Remember(uname, pp);
+			}
+			
 		} else if (oper == "Del") {
 			cout << "Choose from the following options: " << endl;
 			cout << "1. delete posts on your own wall " << endl;

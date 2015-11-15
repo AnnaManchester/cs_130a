@@ -46,6 +46,18 @@ WallPost User::AddWallPost(string authorname, string text) {
 	exit(1);
 }		
 
+WallPost User::AddResponse(int post_index, string authorname, string post) {
+	if (wall && post_index > 0 && post_index <= wall->GetWallSize()) {
+		WallPost *resp = new WallPost(authorname, post);
+		resp->SetResponseFlag();
+		resp->SetDomainName(username);
+		wall->AddResponseToPost(post_index, *resp);
+		return *resp;
+	} 
+	else {
+		cout << "Error: failed to add response." << endl;
+	}
+}
 
 void User::Remember(string friendname, WallPost& post) {
 		memory.push_back(make_pair(friendname, post));
@@ -100,10 +112,12 @@ void User::DeleteFromMemory(WallPost& post) {
 
 
 void User::DisplayWallPosts() {
-	cout << "Your wall: " << endl;
-	cout << wall->WriteWallToString();
-	cout << endl << endl;
-	cout << "Your posts on friends' walls: " << endl;
+	cout << username << "'s wall: " << endl;
+	wall->DisplayPosts();
+}
+
+void User::DisplayMemory(){
+	cout << username << "'s posts on his/her friends' walls: " << endl;
 	MEM::iterator it;
 	for (it = memory.begin(); it != memory.end(); it++) {
 		cout << (it->second).WallPostToString() << endl;
@@ -272,3 +286,5 @@ void User::Ignore(int pos) {
 	cout << "Request ignored." << endl;
 	return; 
 }
+
+

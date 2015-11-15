@@ -26,5 +26,7 @@ class Wall
   void SetUsername(string username);
   string WriteWallToString();
   int GetWallSize();
+  void DisplayPosts();
+  void AddResponseToPost(int post_index, WallPost& post); 
 };
 #endif

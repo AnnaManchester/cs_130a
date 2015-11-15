@@ -20,12 +20,14 @@ WallPost::WallPost(string author_username, string text)
   time_t current_time;
   time(&current_time);
   time_created = ctime(&current_time);
+  is_response = false;
 }
 WallPost::WallPost(string author_username, string text, string time_created)
 {
   this->author_username = author_username;
   this->text = text;
   this->time_created = time_created;
+  is_response = false;
 }
 WallPost::~WallPost()
 {
@@ -76,16 +78,21 @@ string WallPost::WallPostToString()
   wall_post_as_string += "DOMAIN_NAME:";
   wall_post_as_string += this->GetDomainName();
   wall_post_as_string += '\n';
-  wall_post_as_string += "POST_CONTENT:";
+  string type = "POST";
+  if (is_response) {
+    type = "RESPONSE";
+  }
+  wall_post_as_string += type + "_CONTENT:";
   wall_post_as_string += this->GetText();
   wall_post_as_string += '\n';
-  wall_post_as_string += "POST_AUTHOR:";
+  wall_post_as_string += type + "_AUTHOR:";
   wall_post_as_string += this->GetAuthorUsername();
   wall_post_as_string += '\n';
   wall_post_as_string += "CREATION_TIME:";
   wall_post_as_string += this->GetTimeCreated();
   return wall_post_as_string;
 }
+
 void WallPost::ConstructFromString(string data) {
 	istringstream ss(data);
 	while (ss) {
