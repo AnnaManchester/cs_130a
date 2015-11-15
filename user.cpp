@@ -39,6 +39,7 @@ WallPost User::AddWallPost(string authorname, string text) {
 	if (wall) {
 		WallPost *post = new WallPost(authorname,text);
 		wall->AddPost(*post);
+		post->SetDomainName(username);
 		return *post;
 	} 
 	cout << "Error: no wall." << endl;
