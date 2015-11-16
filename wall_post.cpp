@@ -104,8 +104,14 @@ void WallPost::ConstructFromString(string data) {
 		string value = s.substr(found+1);
     if (keyword == "DOMAIN_NAME")
       domain_name = value;
+    else if (keyword == "RESPONSE_CONTENT"){
+      text = value;
+      SetResponseFlag();
+    }
 		else if (keyword == "POST_CONTENT")
 			text = value;
+    else if (keyword == "RESPONSE_AUTHOR")
+      author_username = value;
     else if (keyword == "POST_AUTHOR")
       author_username = value;
 		else if (keyword == "CREATION_TIME")

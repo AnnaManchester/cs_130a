@@ -9,7 +9,7 @@
 #include "user_network.h"
 
 using namespace std;
-
+class Wall;
 class UserNetwork;
 
 typedef vector<pair<string, WallPost>> MEM;

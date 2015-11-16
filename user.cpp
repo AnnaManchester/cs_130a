@@ -178,6 +178,7 @@ void User::ConstructUserFromString(string user_info) {
 			string wall_data = ss.str().substr(ss.tellg());
 			cout << "Adding user: " << username << endl;
 			wall->CreateWallFromString(wall_data);
+			wall->ConstructPostResponseRelationship(this);
 		}
 	} 
 }

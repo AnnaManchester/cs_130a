@@ -2,6 +2,7 @@
 #include "basic.h"
 #include "wall.h"
 #include "wall_post.h"
+#include "user.h"
 #include <string>
 #include <iostream>
 #include <unordered_map>
@@ -15,7 +16,7 @@ Wall::Wall(string username)
 void Wall::AddPost(WallPost wall_post)
 {
   wall_post.SetDomainName(username);
-  wall_posts.insert(0, wall_post);
+  wall_posts.insert(wall_posts.size(), wall_post);
 }
 
 void Wall::AddPost(int pos, WallPost wall_post)
@@ -49,7 +50,7 @@ void Wall::CreateWallFromString(string data)
 		WallPost post = WallPost();
 		post.SetAuthorUsername(username);
 		post.ConstructFromString(post_data);
-		wall_posts.insert(0, post);
+		wall_posts.insert(wall_posts.size(), post);
 		cur_pos = next_pos;
 		next_pos = data.find("DOMAIN_NAME", cur_pos + 1);
 	}
@@ -57,9 +58,26 @@ void Wall::CreateWallFromString(string data)
 	WallPost post  = WallPost();
 	post.SetAuthorUsername(username);
 	post.ConstructFromString(post_data);
-	wall_posts.insert(0,post);
+	wall_posts.insert(wall_posts.size(),post);
 }
 
+void Wall::ConstructPostResponseRelationship(User* user) {
+  DoublyLinkedList<WallPost>::iterator it;
+  WallPost* parent = NULL;
+  for (it = wall_posts.begin(); it != wall_posts.end(); it++) {
+    if ((*it).IsResponse()) {
+      (*it).SetParent(parent);
+      parent->AddResponse(&(*it));
+    }
+    else {
+      parent = &(*it);
+    }
+    if ((*it).GetAuthorUsername() != user->GetUserName()) {
+      User* ptr = user->QueryFriend((*it).GetAuthorUsername());
+      ptr->Remember(user->GetUserName(), *it);
+    }
+  }
+}
 
 string Wall::GetUsername()
 {
