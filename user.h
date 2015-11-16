@@ -81,6 +81,7 @@ public:
 	void DeleteFromMemory(WallPost& post);
 	string RetrieveInfo();
 	void ConstructUserFromString(string user_info);
+	void ConstructPostResponseRelationship();
 	void DisplayWallPosts();
 	void DisplayMemory();
 	void SearchFriend(string keyword);

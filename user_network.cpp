@@ -86,6 +86,10 @@ void UserNetwork::CreateUsersFromFile(string fname) {
 	user->ConstructUserFromString(user_data);
 	users.insert(0, *user);
 	input_file.close();
+	DoublyLinkedList<User>::iterator it;
+	for (it = users.begin(); it != users.end(); it++) {
+		it->ConstructPostResponseRelationship();
+	}
 }
 
 User* UserNetwork::AuthorizeUser(string uname, string pass) {
