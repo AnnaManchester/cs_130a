@@ -255,6 +255,7 @@ void User::RemoveFriend(string uname) {
 		return;
 	}
 	friends.Remove(uname);
+	network->UpdateNetwork(username, uname, false);
 }
 
 void User::ShowRequests() {
@@ -297,6 +298,7 @@ void User::Approve(int pos) {
 	req.friendptr->InsertFriend(username);
 	cout << "Request approved, start chatting!" << endl;
 	requests.remove(pos - 1);
+	network->UpdateNetwork(username, req.fname, true);
 	return;
 }
 

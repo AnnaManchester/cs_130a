@@ -72,6 +72,9 @@ public:
 	void SetBirthday(string bday) {
 		birthday = bday;
 	}
+	UserNetwork* GetNetwork() {
+		return network;
+	}
 	void AddWallPost(string text);
 	WallPost AddWallPost(string authorname, string text);
 	void Remember(string friendname, WallPost& post);

@@ -39,6 +39,7 @@ void menu(User* user) {
 			cout << "  Approve: approve a friend request"  << endl;
 			cout << "  PostTo: create a new post on a friend’s wall"  << endl;
 			cout << "  Ignore: ignore a friend request (request deleted after this)"  << endl;
+			cout << "  Dist: show distance to another user" << endl;
 			cout << "  Quit : exit." << endl;
 		} else if (oper == "Add") {
 			cout << "Enter your post: " << endl;
@@ -162,6 +163,24 @@ void menu(User* user) {
 			getline(cin, post);
 			WallPost pp = frd->AddWallPost(user->GetUserName(), post);
 			user->Remember(uname, pp);
+		} else if (oper == "Dist") {
+			cout << "Enter a username: " << endl;
+			string name2;
+			string name1 = user->GetUserName();
+			getline(cin, name2);
+			if (user->GetNetwork()->UserExists(name2)) {
+				int distance = user->GetNetwork()->Distance(name1, name2);
+				if (distance == -1) {
+					cout << "There is no path. Distance is infinity.";
+				}
+				else {
+					cout << "The distance between " << name1 << " and " 
+					<< name2 << "is" << distance << "." << endl;
+				}
+			}
+			else {
+				cout << "Fail to find distance." << endl;
+			}
 		}
 		else {
 			cout << "Invalid command." << endl;

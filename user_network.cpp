@@ -7,6 +7,9 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <set>
+#include <unordered_map>
+#include <queue>
 using namespace std;
 
 User* UserNetwork::QueryUser(string uname) {
@@ -117,3 +120,66 @@ void UserNetwork::SearchUser(string keyword) {
 	}
 }
 
+int UserNetwork::Distance(string user1, string user2) {
+	unordered_map<string, Node> nodes;
+	DoublyLinkedList<User>::iterator it;
+  	for (it = users.begin(); it != users.end(); it++) {
+  		string uname = it->GetUserName();
+  		Node node;
+  		node.SetNodeName(uname);
+  		nodes[uname] = node;
+	}
+	queue<Node> q;
+	Node& node1 = nodes[user1];
+	node1.SetState(Node::State::GREY);
+	node1.SetDistance(0);
+	q.push(node1);
+	while (q.size() > 0) {
+		Node& tmp = q.front();
+		if (tmp.GetNodeName() == user2) {
+			Node* prev = tmp.GetPrevious();
+			cout << "Here is the path from " << user2 << " to " << user1 << ": "<< endl;
+			cout << user2;
+			while (prev) {
+				cout << " -> " << prev->GetNodeName();
+			}
+			cout << endl;
+			return tmp.GetDistance();
+		}
+		set<string>::iterator it;
+		set<string> &frds = network[tmp.GetNodeName()];
+		for (it = frds.begin(); it != frds.end(); it++) {
+			Node& frd = nodes[*it];
+			if (frd.GetState() == Node::State::WHITE) {
+				frd.SetDistance(tmp.GetDistance() + 1);
+				frd.SetPrevious(&tmp);
+				frd.SetState(Node::State::GREY);
+				q.push(frd);
+			}
+		}
+		q.pop();
+		tmp.SetState(Node::State::BLACK);
+	}
+	return -1;
+}
+
+
+//void FindFriendWithDistance(string username, int distance
+
+void UserNetwork::UpdateNetwork(string user1, string user2, bool is_adding) {
+	set<string> &frd1 = network[user1];
+	set<string> &frd2 = network[user2];
+	if (is_adding) {
+		frd1.insert(user2);
+		frd2.insert(user1);
+	}
+	else {
+		set<string>::iterator it1 = frd1.find(user2), it2 = frd2.find(user1);
+		if (it1 != frd1.end()) {
+			frd1.erase(it1);
+		}
+		if (it2 != frd2.end()) {
+			frd2.erase(it2);
+		}
+	}
+}
