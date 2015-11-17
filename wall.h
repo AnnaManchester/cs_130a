@@ -21,7 +21,8 @@ class Wall
   void CreateWallFromString(string); //Wall will only have WallPosts given by the string parameter
   void ConstructPostResponseRelationship(User* user);
   string GetUsername();
-  WallPost RemovePost(WallPost* post);
+  int ChoosePost();
+  WallPost DeletePost(int idx_del);
   WallPost RemovePost(int pos);
   int FindPostIndex(WallPost* post);
   void SetUsername(string username);

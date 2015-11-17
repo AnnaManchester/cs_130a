@@ -175,7 +175,7 @@ void menu(User* user) {
 				}
 				else {
 					cout << "The distance between " << name1 << " and " 
-					<< name2 << "is" << distance << "." << endl;
+					<< name2 << " is " << distance << "." << endl;
 				}
 			}
 			else {

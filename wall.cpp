@@ -84,36 +84,31 @@ string Wall::GetUsername()
   return username;
 }
 
-WallPost Wall::RemovePost(WallPost* post)
-{
+int Wall::ChoosePost() {
   int post_index = 0;
   int idx_del;
-  if (!post) {
-    cout << "Here are all your posts: " << endl;
-    for (post_index = 0; post_index < wall_posts.size(); post_index++)
-      {
-        cout << "Post Index: " << post_index+1 << endl;
-        cout << wall_posts.get(post_index).WallPostToString() << endl;
-      }
-    cout << "Input post index to delete: " << endl;
-    while (!ReadInt(idx_del) || idx_del > post_index)
-      {
-        cout << "Invalid post index. Enter again: " << endl;
-      }
+  cout << "Here are all your posts: " << endl;
+  for (post_index = 0; post_index < wall_posts.size(); post_index++)
+    {
+      cout << "Post Index: " << post_index+1 << endl;
+      cout << wall_posts.get(post_index).WallPostToString() << endl;
+    }
+  cout << "Input post index to delete: " << endl;
+  if (!ReadInt(idx_del) || idx_del > post_index) {
+    cout << "Invalid post index. " << endl;
+    return -1;
   }
-  else {
-    idx_del = FindPostIndex(post) + 1;
-    if (idx_del == 0){
-      cout << "Error: couldn't find post." << endl;
-      exit(1);
-    }  
-  }
-  WallPost copy = wall_posts.get(idx_del - 1);
+  return idx_del - 1;
+}
+
+WallPost Wall::DeletePost(int idx_del)
+{ 
+  WallPost copy = wall_posts.get(idx_del);
   if (copy.IsResponse()) {
     WallPost* parent = copy.GetParent();
     parent->DeleteResponse(copy);
   }
-  wall_posts.remove(idx_del-1);
+  wall_posts.remove(idx_del);
   return copy;
  }
 

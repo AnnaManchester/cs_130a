@@ -69,7 +69,18 @@ void User::DeleteWallPost(WallPost* post) {
 		cout << endl;
 		return;
 	}
-	WallPost pp = wall->RemovePost(post);
+	int idx_del = -1;
+	if (!post) {
+		idx_del = wall->FindPostIndex(post);
+	}
+    else {
+    	idx_del = wall->ChoosePost();
+    }
+    if (idx_del == -1){
+      	cout << "Error: couldn't find post." << endl;
+      	return;
+    }  
+	WallPost pp = wall->DeletePost(idx_del);
 	if (pp.GetAuthorUsername() != username) {
 		User* frd = QueryFriend(pp.GetAuthorUsername());
 		frd->DeleteFromMemory(pp);
@@ -85,7 +96,6 @@ void User::DeleteWallPost(WallPost* post) {
 		}
 		DeleteWallPost(**it);
 		}
-
 }
 
 void User::DeleteWallPost(WallPost& post) {

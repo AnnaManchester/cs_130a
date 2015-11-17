@@ -39,7 +39,7 @@ private:
 		Node() {
 			state = WHITE;
 			dist = INT_MAX;
-			prev = NULL;
+			prev = NULL; 
 		}
 		~Node() {}
 
