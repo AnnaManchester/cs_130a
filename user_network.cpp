@@ -142,6 +142,7 @@ int UserNetwork::Distance(string user1, string user2) {
 			cout << user2;
 			while (prev) {
 				cout << " -> " << prev->GetNodeName();
+				prev = prev->GetPrevious();
 			}
 			cout << endl;
 			return tmp.GetDistance();
