@@ -60,7 +60,7 @@ int main() {
 	unordered_map<int, vector<int>> m;
 	for (int i = 0; i < number; i++) {
 		for (int j = 0; j < number; j++) {
-			if (rand() % 1000 < 10) {
+			if (rand() % 1000 < 10 && i != j) {
 				m[i].push_back(j);
 				m[j].push_back(i);
 			}
@@ -79,7 +79,7 @@ int main() {
 		for (int j = 0; j < postnum; j++) {
 			if (rand() % 100 < 50) {
 				cout << "DOMAIN_NAME:" << names[i] << endl;
-				cout << "POST_CONTENT:" << gen_random_string(POST_LEN);
+				cout << "POST_CONTENT:" << gen_random_string(POST_LEN) << endl;
 				if (m[i].size() == 0) {
 					cout << "POST_AUTHOR:" << names[i] << endl;
 				}
@@ -96,7 +96,7 @@ int main() {
 			}
 			else {
 				cout << "DOMAIN_NAME:" << names[i] << endl;
-				cout << "RESPONSE_CONTENT:" << gen_random_string(POST_LEN);
+				cout << "RESPONSE_CONTENT:" << gen_random_string(POST_LEN) << endl;
 				if (m[i].size() == 0) {
 					cout << "RESPONSE_AUTHOR:" << names[i] << endl;
 				}
