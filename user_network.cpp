@@ -121,45 +121,52 @@ void UserNetwork::SearchUser(string keyword) {
 }
 
 int UserNetwork::Distance(string user1, string user2) {
-	unordered_map<string, NetworkNode> nodes;
+	unordered_map<string, NetworkNode*> nodes;
 	DoublyLinkedList<User>::iterator it;
   	for (it = users.begin(); it != users.end(); it++) {
   		string uname = it->GetUserName();
-  		NetworkNode node;
-  		node.SetNodeName(uname);
+  		NetworkNode* node = new NetworkNode(uname);
   		nodes[uname] = node;
 	}
-	queue<NetworkNode> q;
-	NetworkNode& node1 = nodes[user1];
-	node1.SetState(NetworkNode::State::GREY);
-	node1.SetDistance(0);
+	queue<NetworkNode*> q;
+	NetworkNode* node1 = nodes[user1];
+	node1->SetState(NetworkNode::State::GREY);
+	node1->SetDistance(0);
 	q.push(node1);
 	while (q.size() > 0) {
-		NetworkNode& tmp = q.front();
-		if (tmp.GetNodeName() == user2) {
-			NetworkNode* prev = tmp.GetPrevious();
+		NetworkNode* tmp = q.front();
+		if (tmp->GetNodeName() == user2) {
+			NetworkNode* prev = tmp->GetPrevious();
 			cout << "Here is the path from " << user2 << " to " << user1 << ": "<< endl;
 			cout << user2;
-			while (prev && prev->GetNodeName() != user1) {
+			while (prev) {
 				cout << " -> " << prev->GetNodeName();
 				prev = prev->GetPrevious();
 			}
-			cout << " -> " << user1 << endl;
-			return tmp.GetDistance();
+			cout << endl;
+			for (it = users.begin(); it != users.end(); it++) {
+				string uname = it->GetUserName();
+				delete nodes[uname];
+			}
+			return tmp->GetDistance();
 		}
 		set<string>::iterator it;
-		set<string> &frds = network[tmp.GetNodeName()];
+		set<string> &frds = network[tmp->GetNodeName()];
 		for (it = frds.begin(); it != frds.end(); it++) {
-			NetworkNode& frd = nodes[*it];
-			if (frd.GetState() == NetworkNode::State::WHITE) {
-				frd.SetDistance(tmp.GetDistance() + 1);
-				frd.SetPrevious(&tmp);
-				frd.SetState(NetworkNode::State::GREY);
+			NetworkNode* frd = nodes[*it];
+			if (frd->GetState() == NetworkNode::State::WHITE) {
+				frd->SetDistance(tmp->GetDistance() + 1);
+				frd->SetPrevious(tmp);
+				frd->SetState(NetworkNode::State::GREY);
 				q.push(frd);
 			}
 		}
 		q.pop();
-		tmp.SetState(NetworkNode::State::BLACK);
+		tmp->SetState(NetworkNode::State::BLACK);
+	}
+	for (it = users.begin(); it != users.end(); it++) {
+		string uname = it->GetUserName();
+		delete nodes[uname];
 	}
 	return -1;
 }
