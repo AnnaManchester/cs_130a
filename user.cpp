@@ -70,7 +70,7 @@ void User::DeleteWallPost(WallPost* post) {
 		return;
 	}
 	int idx_del = -1;
-	if (!post) {
+	if (post) {
 		idx_del = wall->FindPostIndex(post);
 	}
     else {
@@ -117,9 +117,10 @@ void User::DeleteFromFriendWall() {
 	}
 	cout << "Input post index to delete: " << endl;
  	int idx_del;
-	while (!ReadInt(idx_del) || idx_del > post_index)
+	if (!ReadInt(idx_del) || idx_del > post_index)
 	{
-		cout << "Invalid post index. Enter again: " << endl;
+		cout << "Invalid post index." << endl;
+		return;
     }
 	User* frd = QueryFriend(memory[idx_del - 1].first);
 	WallPost post = memory[idx_del - 1].second;
