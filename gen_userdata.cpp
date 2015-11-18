@@ -44,7 +44,7 @@ string gen_time() {
 
 
 int main() {
-	int number = 10;
+	int number = 10000;
 	vector<string> names, rnames, birthdays;
 	unordered_map<string, int> name_dict;
 	for (int i = 0; i < number; i++) {
@@ -77,7 +77,7 @@ int main() {
 		cout << "BIRTHDAY:" << birthdays[i] << endl;
 		int postnum = rand() % POST_NUM;
 		for (int j = 0; j < postnum; j++) {
-			if (rand() % 100 < 50) {
+			if (rand() % 100 < 50 || j == 0) {
 				cout << "DOMAIN_NAME:" << names[i] << endl;
 				cout << "POST_CONTENT:" << gen_random_string(POST_LEN) << endl;
 				if (m[i].size() == 0) {
