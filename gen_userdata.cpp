@@ -59,8 +59,8 @@ int main() {
 	}
 	unordered_map<int, vector<int>> m;
 	for (int i = 0; i < number; i++) {
-		for (int j = 0; j < number; j++) {
-			if (rand() % 1000 < 10 && i != j) {
+		for (int j = i + 1; j < number; j++) {
+			if (rand() % 1000 < 10) {
 				m[i].push_back(j);
 				m[j].push_back(i);
 			}

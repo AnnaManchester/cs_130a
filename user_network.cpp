@@ -140,11 +140,11 @@ int UserNetwork::Distance(string user1, string user2) {
 			NetworkNode* prev = tmp.GetPrevious();
 			cout << "Here is the path from " << user2 << " to " << user1 << ": "<< endl;
 			cout << user2;
-			while (prev) {
+			while (prev && prev->GetNodeName() != user1) {
 				cout << " -> " << prev->GetNodeName();
 				prev = prev->GetPrevious();
 			}
-			cout << endl;
+			cout << " -> " << user1 << endl;
 			return tmp.GetDistance();
 		}
 		set<string>::iterator it;
