@@ -17,10 +17,14 @@ run: ${OBJS} ${TEMPLATES}
 .PHONY: test
 test: ${TEMPLATES} list_array.h test_list.cpp
 	$(CC) $(CCFLAGS) test_list.cpp -o test_list
+.PHONY: gen
+gen: gen_userdata.cpp
+	$(CC) $(CCFLAGS) gen_userdata.cpp -o gen 
+
 
 .PHONY: all
 all: run
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJS) run test_list
+	rm -rf $(OBJS) run test_list gen

@@ -108,6 +108,7 @@ void User::DeleteWallPost(WallPost& post) {
 }
 
 void User::DeleteFromFriendWall() {
+	cout << endl;
 	cout << "Your posts on friends' walls: " << endl;
 	MEM::iterator it;
 	int post_index = 0;
@@ -144,11 +145,13 @@ void User::DeleteFromMemory(WallPost& post) {
 
 
 void User::DisplayWallPosts() {
+	cout << endl;
 	cout << username << "'s wall: " << endl;
 	wall->DisplayPosts();
 }
 
 void User::DisplayMemory(){
+	cout << endl;
 	cout << username << "'s posts on his/her friends' walls: " << endl;
 	MEM::iterator it;
 	for (it = memory.begin(); it != memory.end(); it++) {
