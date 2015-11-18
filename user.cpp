@@ -185,8 +185,10 @@ void User::ConstructUserFromString(string user_info) {
 			password = value;
 		else if (keyword == "REALNAME")	
 			realname = value;
-		else if (keyword == "FRIEND")
+		else if (keyword == "FRIEND") {
 			friends.Add(value);
+			network->UpdateNetwork(username, value, true);
+		}
 		else if (keyword == "BIRTHDAY") {
 			birthday = value;
 			wall = new Wall(username);
