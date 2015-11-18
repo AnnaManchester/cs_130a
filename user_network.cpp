@@ -121,23 +121,23 @@ void UserNetwork::SearchUser(string keyword) {
 }
 
 int UserNetwork::Distance(string user1, string user2) {
-	unordered_map<string, Node> nodes;
+	unordered_map<string, NetworkNode> nodes;
 	DoublyLinkedList<User>::iterator it;
   	for (it = users.begin(); it != users.end(); it++) {
   		string uname = it->GetUserName();
-  		Node node;
+  		NetworkNode node;
   		node.SetNodeName(uname);
   		nodes[uname] = node;
 	}
-	queue<Node> q;
-	Node& node1 = nodes[user1];
-	node1.SetState(Node::State::GREY);
+	queue<NetworkNode> q;
+	NetworkNode& node1 = nodes[user1];
+	node1.SetState(NetworkNode::State::GREY);
 	node1.SetDistance(0);
 	q.push(node1);
 	while (q.size() > 0) {
-		Node& tmp = q.front();
+		NetworkNode& tmp = q.front();
 		if (tmp.GetNodeName() == user2) {
-			Node* prev = tmp.GetPrevious();
+			NetworkNode* prev = tmp.GetPrevious();
 			cout << "Here is the path from " << user2 << " to " << user1 << ": "<< endl;
 			cout << user2;
 			while (prev) {
@@ -150,22 +150,65 @@ int UserNetwork::Distance(string user1, string user2) {
 		set<string>::iterator it;
 		set<string> &frds = network[tmp.GetNodeName()];
 		for (it = frds.begin(); it != frds.end(); it++) {
-			Node& frd = nodes[*it];
-			if (frd.GetState() == Node::State::WHITE) {
+			NetworkNode& frd = nodes[*it];
+			if (frd.GetState() == NetworkNode::State::WHITE) {
 				frd.SetDistance(tmp.GetDistance() + 1);
 				frd.SetPrevious(&tmp);
-				frd.SetState(Node::State::GREY);
+				frd.SetState(NetworkNode::State::GREY);
 				q.push(frd);
 			}
 		}
 		q.pop();
-		tmp.SetState(Node::State::BLACK);
+		tmp.SetState(NetworkNode::State::BLACK);
 	}
 	return -1;
 }
 
 
-//void FindFriendWithDistance(string username, int distance
+void UserNetwork::FindFriendWithDistance(string username, int distance) {
+	unordered_map<string, NetworkNode> nodes;
+	DoublyLinkedList<User>::iterator it;
+  	for (it = users.begin(); it != users.end(); it++) {
+  		string uname = it->GetUserName();
+  		NetworkNode node;
+  		node.SetNodeName(uname);
+  		nodes[uname] = node;
+	}
+	queue<NetworkNode> q;
+	NetworkNode& node1 = nodes[username];
+	node1.SetState(NetworkNode::State::GREY);
+	node1.SetDistance(0);
+	q.push(node1);
+	int i = 0;
+	while (q.size() > 0) {
+		NetworkNode& tmp = q.front();
+		if (tmp.GetDistance() == distance) {
+			cout << tmp.GetNodeName() << " found. " << endl;
+			q.pop();
+			i ++;
+			continue;
+		}
+		if (tmp.GetDistance() > distance) {
+			return;
+		}
+		set<string>::iterator it;
+		set<string> &frds = network[tmp.GetNodeName()];
+		for (it = frds.begin(); it != frds.end(); it++) {
+			NetworkNode& frd = nodes[*it];
+			if (frd.GetState() == NetworkNode::State::WHITE) {
+				frd.SetDistance(tmp.GetDistance() + 1);
+				frd.SetPrevious(&tmp);
+				frd.SetState(NetworkNode::State::GREY);
+				q.push(frd);
+			}
+		}
+		q.pop();
+		tmp.SetState(NetworkNode::State::BLACK);
+	}
+	if (i == 0) {
+		cout << "No users with this distance found." << endl;
+	}
+}
 
 void UserNetwork::UpdateNetwork(string user1, string user2, bool is_adding) {
 	set<string> &frd1 = network[user1];

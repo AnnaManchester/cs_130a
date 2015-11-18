@@ -115,6 +115,10 @@ void User::DeleteFromFriendWall() {
 			cout << "Post Index: " << ++post_index << endl;
 			cout << (it->second).WallPostToString() << endl;
 	}
+	if (post_index == 0) {
+		cout << "No post to delete." <<endl;
+		return;
+	}
 	cout << "Input post index to delete: " << endl;
  	int idx_del;
 	if (!ReadInt(idx_del) || idx_del > post_index)

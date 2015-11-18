@@ -17,7 +17,7 @@ private:
 	DoublyLinkedList<User> users;
 	NET network;
 
-	class Node {
+	class NetworkNode {
 	public:
 		enum State {
 			WHITE,
@@ -28,20 +28,20 @@ private:
 		string uname;
 		State state;
 		int dist;
-		Node* prev;
+		NetworkNode* prev;
 	public:
-		Node(string name) {
+		NetworkNode(string name) {
 			uname = name;
 			state = WHITE;
 			dist = INT_MAX;
 			prev = NULL;
 		}
-		Node() {
+		NetworkNode() {
 			state = WHITE;
 			dist = INT_MAX;
 			prev = NULL; 
 		}
-		~Node() {}
+		~NetworkNode() {}
 
 		void SetNodeName(string nname) {uname = nname;}
 		string GetNodeName() {return uname;}
@@ -49,8 +49,8 @@ private:
 		State GetState() {return state;}
 		void SetDistance(int n) {dist = n;}
 		int GetDistance() {return dist;}
-		void SetPrevious(Node* previous) {prev = previous;}
-		Node* GetPrevious() {return prev;}
+		void SetPrevious(NetworkNode* previous) {prev = previous;}
+		NetworkNode* GetPrevious() {return prev;}
 	};
 public:
 	UserNetwork() {}
